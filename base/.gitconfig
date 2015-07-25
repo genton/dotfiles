@@ -1,0 +1,21 @@
+[user]
+	email = genton.antoine@gmail.com
+	name = phate
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL+xWpCXsDaLPDeibWrx4r96hoz0tyG04W5fnGU5wreQ
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[alias]
+   ci = commit
+   co = checkout
+   st = status
+   br = branch
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = "/mnt/c/Users/Antoine/AppData/Local/Microsoft/WindowsApps/op-ssh-sign.exe"
+[commit]
+	gpgsign = true
+[core]
+	sshCommand = ssh.exe
