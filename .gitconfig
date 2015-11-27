@@ -1,0 +1,12 @@
+[user]
+	email = genton.antoine@gmail.com
+	name = phate
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[alias]
+   ci = commint
+   co = checkout
+   st = status
+   br = branch
