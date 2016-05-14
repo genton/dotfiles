@@ -1,0 +1,7 @@
+Description='homewifi'
+Interface=wlp2s0
+Connection=wireless
+Security=wpa
+IP=dhcp
+ESSID='tonio2_connection'
+Key=''
