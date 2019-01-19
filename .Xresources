@@ -1,0 +1,62 @@
+urxvt*loginShell:         true
+urxvt*scrollBar:         false
+urxvt*secondaryScroll:    true
+urxvt*saveLines:         65535
+urxvt*cursorBlink:       false
+urxvt*urgentOnBell:       true
+URxvt*termName:      xterm-256color
+
+! rebind Home and End keys so that they behave as expected
+URxvt.keysym.Home:    \033[1~
+URxvt.keysym.End:     \033[4~
+URxvt.keysym.KP_Home: \033[1~
+URxvt.keysym.KP_End:  \033[4~
+! URxvt.iconFile: /usr/share/icons/breeze/apps/64/utilities-terminal.svg
+
+
+urxvt*perl-lib:        /usr/lib/urxvt/perl/
+urxvt*perl-ext-common: default,matcher,searchable-scrollback,resize-font,selection-to-clipboard
+urxvt*urlLauncher:     /usr/bin/firefox
+urxvt*matcher.button:  1
+! urxvt.cutchars:        `()'*<>[]{|}"
+
+URxvt.depth: 32
+
+URxvt*font: xft:DejaVu Sans Mono for Powerline:style=Semibold:pixelsize=22:antialias=true:hinting=slight
+URxvt*boldFont: xft:DejaVu Sans Mono for Powerline:style=bold:pixelsize=22:antialias=true:hinting=slight
+
+urxvt*cursorColor: #DCDCCC
+!  - color scheme
+URxvt*background: rgba:0000/0000/0000/dddd
+URxvt*buffered: true
+URxvt*transparent: false
+URxvt*fading: 2%
+URxvt*fadeColor: grey
+URxvt*shading: 75
+! urxvt.background:  #000000
+urxvt.foreground:  #EBEBFF
+! black + red
+!urxvt*color0:     #3f3f3f
+urxvt*color0:      #000000
+urxvt*color1:      #e01010
+! green + yellow
+urxvt*color2:      #00AA00
+urxvt*color3:      #FFFF00
+! blue + purple
+urxvt*color4:      #112037
+urxvt*color5:      #A020F0
+! cyan + white
+urxvt*color6:      #5B5BC7
+urxvt*color7:      #fefefe
+! bright-black + bright-red
+urxvt*color8:      #6a6a6a
+urxvt*color9:      #FF5555
+! bright-green + bright-yellow
+urxvt*color10:     #90EE90
+urxvt*color11:     #ffff2f
+! bright-blue + bright-purple
+urxvt*color12:     #5B5BC7
+urxvt*color13:     #e628ba
+! bright-cyan + bright-white
+urxvt*color14:     #7D7DFB
+urxvt*color15:     #ffffff
