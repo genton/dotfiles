@@ -4,35 +4,50 @@ urxvt*secondaryScroll:    true
 urxvt*saveLines:         65535
 urxvt*cursorBlink:       false
 urxvt*urgentOnBell:       true
-URxvt*termName:      xterm-256color
+urxvt*termName:      xterm-256color
+
+! do not scroll with output
+urxvt*scrollTtyOutput: false
+
+! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
+urxvt*scrollWithBuffer: true
+
+! scroll back to the bottom on keypress
+urxvt*scrollTtyKeypress: true
+
 
 ! rebind Home and End keys so that they behave as expected
-URxvt.keysym.Home:    \033[1~
-URxvt.keysym.End:     \033[4~
-URxvt.keysym.KP_Home: \033[1~
-URxvt.keysym.KP_End:  \033[4~
-! URxvt.iconFile: /usr/share/icons/breeze/apps/64/utilities-terminal.svg
-
+urxvt.keysym.Home:    \033[1~
+urxvt.keysym.End:     \033[4~
+urxvt.keysym.KP_Home: \033[1~
+urxvt.keysym.KP_End:  \033[4~
 
 urxvt*perl-lib:        /usr/lib/urxvt/perl/
 urxvt*perl-ext-common: default,matcher,searchable-scrollback,resize-font,selection-to-clipboard
-urxvt*urlLauncher:     /usr/bin/firefox
-urxvt*matcher.button:  1
-! urxvt.cutchars:        `()'*<>[]{|}"
 
-URxvt.depth: 32
+! URL config
+urxvt*url-launcher:   /usr/bin/google-chrome-stable
+urxvt*matcher.button: 1
+urxvt*matcher.rend.0: Uline Bold fg6
 
-URxvt*font: xft:DejaVu Sans Mono for Powerline:style=Semibold:pixelsize=22:antialias=true:hinting=slight
-URxvt*boldFont: xft:DejaVu Sans Mono for Powerline:style=bold:pixelsize=22:antialias=true:hinting=slight
+! font resize config
+urxvt*keysym.C-equal: resize-font:bigger
+urxvt*keysym.C-0:     resize-font:reset
+
+urxvt.depth: 32
+urxvt*background: [80]#000000
+
+urxvt*font:     xft:Cascadia Code:style=Semibold:antialias=true:hinting=slight
+urxvt*boldFont: xft:Cascadia Code:style=bold:antialias=true:hinting=slight
+urxvt*letterSpace: -4
 
 urxvt*cursorColor: #DCDCCC
 !  - color scheme
-URxvt*background: rgba:0000/0000/0000/dddd
-URxvt*buffered: true
-URxvt*transparent: false
-URxvt*fading: 2%
-URxvt*fadeColor: grey
-URxvt*shading: 75
+urxvt*buffered: true
+urxvt*transparent: false
+urxvt*fading: 2%
+urxvt*fadeColor: grey
+urxvt*shading: 75
 ! urxvt.background:  #000000
 urxvt.foreground:  #EBEBFF
 ! black + red
@@ -60,3 +75,13 @@ urxvt*color13:     #e628ba
 ! bright-cyan + bright-white
 urxvt*color14:     #7D7DFB
 urxvt*color15:     #ffffff
+
+!! Common Keybinds for Navigations
+URxvt.keysym.Shift-Up: command:\033]720;1\007
+URxvt.keysym.Shift-Down: command:\033]721;1\007
+URxvt.keysym.Control-Up: \033[1;5A
+URxvt.keysym.Control-Down: \033[1;5B
+URxvt.keysym.Control-Right: \033[1;5C
+URxvt.keysym.Control-Left: \033[1;5D
+
+
