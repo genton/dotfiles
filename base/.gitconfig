@@ -1,7 +1,7 @@
 [user]
 	email = genton.antoine@gmail.com
 	name = Antoine
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL+xWpCXsDaLPDeibWrx4r96hoz0tyG04W5fnGU5wreQ
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMfXnGU/d2JSotk/LS+LmDUopYHePf+XvTyQLD4fE2os
 [color]
 	diff = auto
 	status = auto
