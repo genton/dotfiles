@@ -60,6 +60,7 @@ return {
               ["<esc>"] = actions.close,
             },
           },
+          hidden = true,
           file_ignore_patterns = { ".git/", "__pycache__/", "%.pyc", "node_modules/" },
           layout_config = { horizontal = { preview_width = 0.55 } },
           borderchars = {
