@@ -39,7 +39,7 @@ bindkey '\e[Z' reverse-menu-complete
 bindkey '^R' history-incremental-search-backward
 
 # --- Completion ---
-zstyle :compinstall filename '/home/phate/.zshrc'
+zstyle :compinstall filename "$HOME/.zshrc"
 autoload -Uz compinit && compinit
 autoload -Uz colors && colors
 
@@ -49,17 +49,45 @@ export NVM_DIR="$HOME/.nvm"
 
 # PATH updates
 typeset -U path # Keep unique paths
+
+# macOS Homebrew
+if [[ "$(uname)" == "Darwin" ]]; then
+    path=(
+        /opt/homebrew/bin
+        /opt/homebrew/sbin
+        $path
+    )
+fi
+
 path=(
-  $HOME/.local/bin
-  $HOME/.cargo/bin
-  $HOME/.gem/ruby/2.3.0/bin
-  /snap/bin
-  $path
+    $HOME/.local/bin
+    $HOME/.cargo/bin
+    $path
 )
+
+# Linux-specific paths
+if [[ "$(uname)" == "Linux" ]]; then
+    path=(
+        $HOME/.gem/ruby/2.3.0/bin
+        /snap/bin
+        $path
+    )
+fi
+
 export PATH
 
 # --- Aliases ---
-alias ls="ls --hyperlink=auto --color=auto"
+# ls with color: use GNU coreutils on macOS if available, otherwise BSD ls
+if [[ "$(uname)" == "Darwin" ]]; then
+    if command -v gls &>/dev/null; then
+        alias ls="gls --hyperlink=auto --color=auto"
+    else
+        alias ls="ls -G"
+    fi
+else
+    alias ls="ls --hyperlink=auto --color=auto"
+fi
+
 alias icat="kitty +kitten icat"
 
 # 1Password SSH agent via Windows interop (WSL only)
@@ -69,30 +97,42 @@ if [[ -n "$WSL_DISTRO_NAME" ]]; then
 fi
 
 # --- Plugins (Antigen) ---
-source /usr/share/zsh-antigen/antigen.zsh
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-autosuggestions
-antigen apply
+# Load antigen from the correct location for the current OS
+if [[ "$(uname)" == "Darwin" ]]; then
+    ANTIGEN_PATH="$(brew --prefix 2>/dev/null)/share/antigen/antigen.zsh"
+else
+    ANTIGEN_PATH="/usr/share/zsh-antigen/antigen.zsh"
+fi
+
+if [[ -f "$ANTIGEN_PATH" ]]; then
+    source "$ANTIGEN_PATH"
+    antigen bundle zsh-users/zsh-syntax-highlighting
+    antigen bundle zsh-users/zsh-autosuggestions
+    antigen apply
+fi
 
 # --- Shell Prompt (Starship) ---
-if [ "$USER" = "root" ]; then
-    export STARSHIP_CONFIG=~/.config/starship_root.toml
-else
-    export STARSHIP_CONFIG=~/.config/starship.toml
+if command -v starship &>/dev/null; then
+    if [ "$USER" = "root" ]; then
+        export STARSHIP_CONFIG=~/.config/starship_root.toml
+    else
+        export STARSHIP_CONFIG=~/.config/starship.toml
+    fi
+    eval "$(starship init zsh)"
 fi
-eval "$(starship init zsh)"
 
 # --- External Tool Init ---
 # NVM
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# Conda/Mamba
-if [ -f "/home/phate/mambaforge/etc/profile.d/conda.sh" ]; then
-    . "/home/phate/mambaforge/etc/profile.d/conda.sh"
-    if [ -f "/home/phate/mambaforge/etc/profile.d/mamba.sh" ]; then
-        . "/home/phate/mambaforge/etc/profile.d/mamba.sh"
+# Conda/Mamba (works on both macOS and Linux via $HOME path)
+MAMBA_BASE="$HOME/mambaforge"
+if [ -f "$MAMBA_BASE/etc/profile.d/conda.sh" ]; then
+    . "$MAMBA_BASE/etc/profile.d/conda.sh"
+    if [ -f "$MAMBA_BASE/etc/profile.d/mamba.sh" ]; then
+        . "$MAMBA_BASE/etc/profile.d/mamba.sh"
     fi
 else
-    export PATH="/home/phate/mambaforge/bin:$PATH"
+    export PATH="$MAMBA_BASE/bin:$PATH"
 fi

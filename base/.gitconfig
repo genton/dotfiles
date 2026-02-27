@@ -13,12 +13,20 @@
    br = branch
 [gpg]
 	format = ssh
-[gpg "ssh"]
-	program = "/mnt/c/Users/Antoine/AppData/Local/Microsoft/WindowsApps/op-ssh-sign.exe"
 [commit]
 	gpgsign = true
-[core]
-	sshCommand = ssh.exe
 [credential "https://github.com"]
-	helper = 
+	helper =
 	helper = !/usr/bin/gh auth git-credential
+
+# Platform-specific overrides live in ~/.gitconfig.local (not version-controlled)
+# On macOS with 1Password:
+#   [gpg "ssh"]
+#       program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+# On WSL/Windows with 1Password:
+#   [gpg "ssh"]
+#       program = "/mnt/c/Users/<name>/AppData/Local/Microsoft/WindowsApps/op-ssh-sign.exe"
+#   [core]
+#       sshCommand = ssh.exe
+[include]
+	path = ~/.gitconfig.local

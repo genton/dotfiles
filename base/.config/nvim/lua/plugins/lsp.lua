@@ -49,7 +49,6 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       -- Diagnostic signs
@@ -66,33 +65,43 @@ return {
         float = { border = "rounded", source = "always" },
       })
 
-      -- Keymaps applied on LSP attach
-      local on_attach = function(_, buf)
-        local map = function(keys, func, desc)
-          vim.keymap.set("n", keys, func, { buffer = buf, desc = desc })
-        end
-        local tb = require("telescope.builtin")
+      -- Keymaps and per-client setup on LSP attach
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(ev)
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          local buf = ev.buf
 
-        map("gd",         tb.lsp_definitions,          "Go to definition")
-        map("gD",         vim.lsp.buf.declaration,     "Go to declaration")
-        map("gr",         tb.lsp_references,           "References")
-        map("gi",         tb.lsp_implementations,      "Implementations")
-        map("gt",         tb.lsp_type_definitions,     "Type definition")
-        map("K",          vim.lsp.buf.hover,           "Hover docs")
-        map("<C-s>",      vim.lsp.buf.signature_help,  "Signature help")
-        map("<leader>lr", vim.lsp.buf.rename,          "Rename")
-        map("<leader>la", vim.lsp.buf.code_action,     "Code action")
-        map("<leader>ld", tb.diagnostics,              "Diagnostics")
-        map("<leader>lf", function() vim.lsp.buf.format({ async = true }) end, "Format")
-        map("]d",         vim.diagnostic.goto_next,    "Next diagnostic")
-        map("[d",         vim.diagnostic.goto_prev,    "Prev diagnostic")
-        map("<leader>le", vim.diagnostic.open_float,   "Show diagnostic")
-      end
+          -- Ruff: disable hover to avoid conflict with pyright
+          if client and client.name == "ruff" then
+            client.server_capabilities.hoverProvider = false
+            return
+          end
+
+          local map = function(keys, func, desc)
+            vim.keymap.set("n", keys, func, { buffer = buf, desc = desc })
+          end
+          local tb = require("telescope.builtin")
+
+          map("gd",         tb.lsp_definitions,          "Go to definition")
+          map("gD",         vim.lsp.buf.declaration,     "Go to declaration")
+          map("gr",         tb.lsp_references,           "References")
+          map("gi",         tb.lsp_implementations,      "Implementations")
+          map("gt",         tb.lsp_type_definitions,     "Type definition")
+          map("K",          vim.lsp.buf.hover,           "Hover docs")
+          map("<C-s>",      vim.lsp.buf.signature_help,  "Signature help")
+          map("<leader>lr", vim.lsp.buf.rename,          "Rename")
+          map("<leader>la", vim.lsp.buf.code_action,     "Code action")
+          map("<leader>ld", tb.diagnostics,              "Diagnostics")
+          map("<leader>lf", function() vim.lsp.buf.format({ async = true }) end, "Format")
+          map("]d",         vim.diagnostic.goto_next,    "Next diagnostic")
+          map("[d",         vim.diagnostic.goto_prev,    "Prev diagnostic")
+          map("<leader>le", vim.diagnostic.open_float,   "Show diagnostic")
+        end,
+      })
 
       -- Pyright (type checking, go-to-def, hover)
-      lspconfig.pyright.setup({
+      vim.lsp.config("pyright", {
         capabilities = capabilities,
-        on_attach = on_attach,
         settings = {
           python = {
             analysis = {
@@ -104,14 +113,12 @@ return {
         },
       })
 
-      -- Ruff (linting — disable hover/format to avoid conflict with pyright/conform)
-      lspconfig.ruff.setup({
+      -- Ruff (linting — hover disabled via LspAttach above)
+      vim.lsp.config("ruff", {
         capabilities = capabilities,
-        on_attach = function(client, buf)
-          client.server_capabilities.hoverProvider = false
-          on_attach(client, buf)
-        end,
       })
+
+      vim.lsp.enable({ "pyright", "ruff" })
     end,
   },
 }
