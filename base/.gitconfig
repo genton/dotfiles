@@ -17,7 +17,7 @@
 	gpgsign = true
 [credential "https://github.com"]
 	helper =
-	helper = !/usr/bin/gh auth git-credential
+	helper = !gh auth git-credential
 
 # Platform-specific overrides live in ~/.gitconfig.local (not version-controlled)
 # On macOS with 1Password:
