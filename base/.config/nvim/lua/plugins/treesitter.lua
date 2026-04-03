@@ -5,19 +5,14 @@ return {
     lazy = false,
     build = ":TSUpdate",
     config = function()
-      -- Install parsers (async; safe to call on every startup)
-      require("nvim-treesitter").install({
-        "python", "rust", "lua", "vim", "vimdoc", "bash", "json", "yaml",
-        "toml", "markdown", "markdown_inline", "html", "css",
-        "javascript", "typescript", "regex", "sql",
-      })
-
-      -- Enable treesitter highlighting per filetype
-      vim.api.nvim_create_autocmd("FileType", {
-        group = vim.api.nvim_create_augroup("TreesitterHighlight", { clear = true }),
-        callback = function(args)
-          pcall(vim.treesitter.start, args.buf)
-        end,
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = {
+          "python", "rust", "lua", "vim", "vimdoc", "bash", "json", "yaml",
+          "toml", "markdown", "markdown_inline", "html", "css",
+          "javascript", "typescript", "regex", "sql",
+        },
+        highlight = { enable = true },
+        indent = { enable = true },
       })
     end,
   },
