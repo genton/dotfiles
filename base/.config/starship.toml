@@ -18,7 +18,7 @@ read_only = " 󰌾"
 
 [hostname]
 ssh_only = false
-format = '[$ssh_symbol$hostname](bold blue)'
+format = '[$ssh_symbol$hostname](bold bright-blue)'
 trim_at = '.companyname.com'
 disabled = false
 ssh_symbol = " "
